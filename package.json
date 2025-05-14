@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "backend hosts to create apis for guest management ",
   "main": "app.js",
+  "type": "module",
   "scripts": {
     "start": "node app.js",
     "build": "rm -rf dist/ && tsc -p ."

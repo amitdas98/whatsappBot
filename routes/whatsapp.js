@@ -1,5 +1,5 @@
-const { Router } = require("express");
-const { whatsapp } = require("../db/mongo");
+import { Router } from "express";
+import { whatsapp } from "../db/mongo.js";
 
 const router = Router();
 

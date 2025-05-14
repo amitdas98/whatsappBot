@@ -1,11 +1,12 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const cors = require("cors");
+import express from "express";
+import bodyParser from "body-parser";
+import cors from "cors";
 
 // require the whatsapp route from routes folder
-const whatsappRoute = require("./routes/whatsapp");
+import whatsappRoute from "./routes/whatsapp.js";
 
-require("dotenv").config(); 
+import dotenv from "dotenv";
+dotenv.config();
 const app = express();
 
 // Middleware
