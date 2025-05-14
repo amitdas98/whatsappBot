@@ -5,12 +5,14 @@
   "main": "app.js",
   "type": "module",
   "scripts": {
-    "start": "node app.js",
+    "start": "nodemon app.js",
     "build": "rm -rf dist/ && tsc -p ."
   },
   "author": "mailamitad98@gmail.com",
   "license": "ISC",
   "dependencies": {
+    "@google/genai": "^0.14.0",
+    "axios": "^1.9.0",
     "body-parser": "^1.20.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",

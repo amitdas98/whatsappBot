@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { whatsapp } from "../db/mongo.js";
-
+import replyToMessage from "../controller/whatsappReply.js";
 const router = Router();
 
 router.post("/webhook", async (req, res) => {
@@ -15,6 +15,14 @@ router.post("/webhook", async (req, res) => {
 			timestamp: new Date(req?.body?.timestamp || Date.now()),
 		};
 		await whatsapp.create(document);
+
+		if (req?.body?.event === "messages.upsert" ) {
+            let isFromMe = req?.body?.data?.messages?.key?.fromMe; 
+            if (!isFromMe) {
+                replyToMessage(req?.body?.data);
+            }
+			console.log("🔔 Message received! Need to reply to the message");
+		}
 		// Respond to the webhook sender
 		res.status(200).send("Webhook received");
 	} catch (error) {
