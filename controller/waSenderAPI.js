@@ -12,13 +12,14 @@ const sendMessage = async (to, text) => {
 		url: "https://www.wasenderapi.com/api/send-message",
 		headers: {
 			"Content-Type": "application/json",
-			Accept: "*/*",
-			"Accept-Language": "*",
+			"Authorization": `Bearer ${WASENDER_API_KEY}`,
+			"Accept": "application/json",
+			"Origin": "https://wasenderapi.com",
+			"Referer": "https://wasenderapi.com/",
+			"Sec-Fetch-Site": "same-origin",
 			"Sec-Fetch-Mode": "cors",
-			"Accept-Encoding": "br, gzip, deflate",
-			Host: "wasenderapi.com",
-			"User-Agent":
-				"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/122.0.0.0 Safari/537.36",
+			"Sec-Fetch-Dest": "empty",
+			"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
 		},
 		data: {
 			to,
