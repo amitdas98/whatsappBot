@@ -5,7 +5,7 @@ mongoose
 	.connect(process.env.MONGODB_URI, {
 		useNewUrlParser: true,
 		useUnifiedTopology: true,
-		dbName: "wedding",
+		dbName: "whatsapp",
 	})
 	.then(() => console.log("Connected to MongoDB"))
 	.catch((err) => console.error("MongoDB connection error:", err.message)); // Log error message
