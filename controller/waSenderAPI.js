@@ -3,6 +3,8 @@ import axios from "axios";
 const WASENDER_API_KEY = process.env.WASENDER_API_KEY;
 
 const sendMessage = async (to, text) => {
+    console.log("🔔 Sending message to", to, text);
+    console.log("🔔 WASENDER_API_KEY", WASENDER_API_KEY);
     const response = await axios.post("https://wasenderapi.com/api/send-message", {
         to,
         text
