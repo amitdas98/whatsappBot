@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "start": "node app.js",
-    "build": "rm -rf dist/ && tsc -p ."
+    "build": "node app.js"
   },
   "author": "mailamitad98@gmail.com",
   "license": "ISC",
