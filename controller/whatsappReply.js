@@ -1,9 +1,9 @@
-import sendMessage from "./waSenderAPI.js";
+import { sendMessage, sendMessageUsingSDK } from "./waSenderAPI.js";
 import generateReply from "./gemini.js";
-
+import logger from "../utils/logger.js";
 const replyToMessage = async (event) => {
 	try {
-		console.log("🔔 Message received! Need to reply to the message");
+		logger("🔔 Message received! Need to reply to the message");
 		let senderJid = event?.messages?.key?.remoteJid;
 		if (senderJid.includes("@s.whatsapp.net")) {
 			senderJid = senderJid.replace("@s.whatsapp.net", "");
@@ -13,13 +13,13 @@ const replyToMessage = async (event) => {
 		}
 		const messageFromUser = event?.messages?.message?.conversation;
 		const reply = await generateReply(messageFromUser);
-		console.log(
+		logger(
 			`🔔 Reply for message ${messageFromUser} is ${reply} for user ${senderJid}`
 		);
-		const response = await sendMessage(senderJid, reply);
-		console.log("🔔 Response from waSenderAPI", response);
+		const response = await sendMessageUsingSDK(senderJid, reply);
+		logger("🔔 Response from waSenderAPI", response);
 	} catch (error) {
-		console.log("🔔 Error in replyToMessage", error);
+		logger("🔔 Error in replyToMessage", error);
 	}
 };
 

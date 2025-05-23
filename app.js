@@ -1,7 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
-
+import logger from "./utils/logger.js";
 // require the whatsapp route from routes folder
 import whatsappRoute from "./routes/whatsapp.js";
 
@@ -16,12 +16,12 @@ app.use(bodyParser.json());
 app.use('/whatsapp', whatsappRoute)
 
 app.get("/health", (req, res) => {
-	console.log("health check");
+	logger("health check");
 	res.status(200).json({ message: "Server is healthy" });
 });
 
 // Start Server
-const PORT = 5000;
+const PORT = 5001;
 app.listen(PORT, () =>
-	console.log(`Server running on http://localhost:${PORT}`)
+	logger(`Server running on http://localhost:${PORT}`)
 );

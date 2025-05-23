@@ -1,13 +1,15 @@
 import { Router } from "express";
 import { whatsapp } from "../db/mongo.js";
 import replyToMessage from "../controller/whatsappReply.js";
+import { sendMessageUsingSDK } from "../controller/waSenderAPI.js";
+import logger from "../utils/logger.js";
 const router = Router();
 
 router.post("/webhook", async (req, res) => {
 	try {
-		console.log("🔔 Webhook received!");
-		console.log("Headers:", req.headers);
-		console.log("Body:", req.body);
+		logger("🔔 Webhook received!");
+		logger("Headers:", req.headers);
+		logger("Body:", req.body);
 		const document = {
 			event: req?.body?.event,
 			sessionId: req?.body?.sessionId,
@@ -21,12 +23,12 @@ router.post("/webhook", async (req, res) => {
             if (!isFromMe) {
                 replyToMessage(req?.body?.data);
             }
-			console.log("🔔 Message received! Need to reply to the message");
+			logger("🔔 Message received! Need to reply to the message");
 		}
 		// Respond to the webhook sender
 		res.status(200).send("Webhook received");
 	} catch (error) {
-		console.log(`error in webhook`, error);
+		logger(`error in webhook`, error);
 	}
 });
 
@@ -40,7 +42,21 @@ router.get("/whastappMessages", async (req, res) => {
 			message: "Failed to fetch messages",
 			error: error?.message,
 		});
-		console.log(`error in getting messages`, error);
+		logger(`error in getting messages`, error);
+	}
+});
+
+router.post("/sendMessage", async (req, res) => {
+	try {
+		const { to, text } = req.body;
+		const result = await sendMessageUsingSDK(to, text);
+		res.status(200).json(result);
+	} catch (error) {
+		res.status(500).json({
+			message: "Failed to send message",
+			error: error?.message,
+		});
+		logger(`error in sending message`, error.message);
 	}
 });
 

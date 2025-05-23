@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import logger from "../utils/logger.js";
 dotenv.config();
 mongoose
 	.connect(process.env.MONGODB_URI, {
@@ -7,8 +8,8 @@ mongoose
 		useUnifiedTopology: true,
 		dbName: "whatsapp",
 	})
-	.then(() => console.log("Connected to MongoDB"))
-	.catch((err) => console.error("MongoDB connection error:", err.message)); // Log error message
+	.then(() => logger("Connected to MongoDB"))
+	.catch((err) => logger("MongoDB connection error:", err.message)); // Log error message
 
 const whatsappMessages = new mongoose.Schema({
 	event: { type: String },

@@ -1,6 +1,6 @@
 import { GoogleGenAI } from "@google/genai";
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
-
+import logger from "../utils/logger.js";
 const genai = new GoogleGenAI({
 	apiKey: GEMINI_API_KEY,
 });
@@ -18,9 +18,9 @@ const generateReply = async (message) => {
         responseParsed = JSON.parse(string);
     } catch (error) {
         responseParsed = string;
-        console.log(error);
+        logger("error in parsing response", error);
     }
-	console.log(responseParsed.reply || responseParsed);
+	logger("responseParsed", responseParsed.reply || responseParsed);
 	return responseParsed.reply || responseParsed;
 };
 
