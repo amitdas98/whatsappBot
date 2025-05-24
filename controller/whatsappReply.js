@@ -11,8 +11,18 @@ const replyToMessage = async (event) => {
 		if (!senderJid.includes("+")) {
 			senderJid = `+${senderJid}`;
 		}
-		const messageFromUser = event?.messages?.message?.conversation;
-		const reply = await generateReply(messageFromUser);
+		let messageFromUser;
+		let isReplyingToMyMessage = false;
+		let messageWhichIsGettingRepliedTo;
+		if (event?.messages?.message?.conversation) {
+			messageFromUser = event?.messages?.message?.conversation;
+		} else if (event?.messages?.message?.extendedTextMessage?.text) {
+			isReplyingToMyMessage = true;
+			messageFromUser = event?.messages?.message?.extendedTextMessage?.text;
+			messageWhichIsGettingRepliedTo = event?.messages?.message?.extendedTextMessage?.contextInfo?.quotedMessage?.conversation;
+			logger(`this is reply to the bot previous message ${messageWhichIsGettingRepliedTo}, reply ${messageFromUser} `)
+		}
+		const reply = await generateReply(messageFromUser, {isReplyingToMyMessage, messageWhichIsGettingRepliedTo});
 		logger(
 			`🔔 Reply for message ${messageFromUser} is ${reply} for user ${senderJid}`
 		);
