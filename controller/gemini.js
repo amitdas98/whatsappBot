@@ -6,7 +6,7 @@ const genai = new GoogleGenAI({
 });
 
 const generateReply = async (message, options) => {
-  const prompt = await getPrompt(message, optios);
+  const prompt = await getPrompt(message, options);
   const response = await genai.models.generateContent({
     model: "gemini-2.0-flash",
     contents: prompt,
