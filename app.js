@@ -21,7 +21,7 @@ app.get("/health", (req, res) => {
 });
 
 // Start Server
-const PORT = 5001;
+const PORT = process.env.PORT || 4000 
 app.listen(PORT, () =>
 	logger(`Server running on http://localhost:${PORT}`)
 );
