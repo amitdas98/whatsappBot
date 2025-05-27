@@ -9,7 +9,7 @@ router.post("/webhook", async (req, res) => {
 	try {
 		// logger("🔔 Webhook received!");
 		// logger("Headers:", req.headers);
-		logger(" Webhook Body:", req.body);
+		logger(` Webhook Body: ${JSON.stringify(req?.body)}`);
 		const document = {
 			event: req?.body?.event,
 			sessionId: req?.body?.sessionId,

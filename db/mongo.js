@@ -22,6 +22,15 @@ const whatsappMessages = new mongoose.Schema({
 	},
 });
 
-const whatsapp = mongoose.model("whatsapp", whatsappMessages);
+const whatsappConversationSchema = new mongoose.Schema({
+	uid: { type: String },
+	message: { type: String },
+	timestamp: { type: Date },
+	messageId: { type: String },
+	messageType: { type: String },
+});
 
-export { whatsapp };
+const whatsapp = mongoose.model("whatsapp", whatsappMessages);
+const whatsappConversation = mongoose.model("whatsappConversation", whatsappConversationSchema);
+
+export { whatsapp, whatsappConversation };
