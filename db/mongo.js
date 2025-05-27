@@ -28,6 +28,8 @@ const whatsappConversationSchema = new mongoose.Schema({
 	timestamp: { type: Date },
 	messageId: { type: String },
 	messageType: { type: String },
+}, {
+	timestamps: true
 });
 
 const whatsapp = mongoose.model("whatsapp", whatsappMessages);

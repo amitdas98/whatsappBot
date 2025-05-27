@@ -1,6 +1,7 @@
 import { sendMessage, sendMessageUsingSDK } from "./waSenderAPI.js";
 import generateReply from "./gemini.js";
 import logger from "../utils/logger.js";
+import { createMessage, getMessages } from "./messages.js";
 const replyToMessage = async (event) => {
 	try {
 		logger("🔔 Message received! Need to reply to the message");
@@ -12,20 +13,32 @@ const replyToMessage = async (event) => {
 			senderJid = `+${senderJid}`;
 		}
 		let messageFromUser;
-		let isReplyingToMyMessage = false;
-		let messageWhichIsGettingRepliedTo;
 		if (event?.messages?.message?.conversation) {
 			messageFromUser = event?.messages?.message?.conversation;
-		} else if (event?.messages?.message?.extendedTextMessage?.text) {
-			isReplyingToMyMessage = true;
-			messageFromUser = event?.messages?.message?.extendedTextMessage?.text;
-			messageWhichIsGettingRepliedTo = event?.messages?.message?.extendedTextMessage?.contextInfo?.quotedMessage?.conversation;
-			logger(`this is reply to the bot previous message ${messageWhichIsGettingRepliedTo}, reply ${messageFromUser} `)
+			const data = {
+				message: messageFromUser,
+				messageType: "USER",
+				timestamp: new Date().toISOString(),
+				messageId: event?.messages?.key?.id,
+				uid: senderJid,
+			};
+			await createMessage(data);
 		}
-		const reply = await generateReply(messageFromUser, {isReplyingToMyMessage, messageWhichIsGettingRepliedTo});
+		const messages = await getMessages(senderJid);
+		const reply = await generateReply(messageFromUser, { messages });
 		logger(
 			`🔔 Reply for message ${messageFromUser} is ${reply} for user ${senderJid}`
 		);
+		if (reply) {
+			const data = {
+				message: reply,
+				messageType: "BOT",
+				timestamp: new Date().toISOString(),
+				messageId: event?.messages?.key?.id,
+				uid: senderJid,
+			};
+			await createMessage(data);
+		}
 		const response = await sendMessageUsingSDK(senderJid, reply);
 		logger("🔔 Response from waSenderAPI", response);
 	} catch (error) {
